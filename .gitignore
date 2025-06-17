@@ -14,4 +14,4 @@ npm-debug.log*
 .idea/
 
 # macOS files
-.DS_Store
+.DS_Storenode_modules/
