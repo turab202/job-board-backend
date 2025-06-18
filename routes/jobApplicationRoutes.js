@@ -1,7 +1,7 @@
 const express = require("express");
 const multer = require("multer");
 const path = require("path");
-const Job = require("../models/jobModel");
+const Job = require("../models/JobModel");
 const JobApplication = require("../models/jobApplicationModel");
 const authMiddleware = require("../middleware/authMiddleware");
 
