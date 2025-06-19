@@ -58,6 +58,27 @@ router.get("/applied-jobs", authMiddleware, async (req, res) => {
     res.status(500).json({ message: "Error fetching applications", error: err.message });
   }
 });
+// GET: Get all applications for jobs posted by the logged-in employer
+router.get("/employer/applications", authMiddleware, async (req, res) => {
+  try {
+    const employerId = req.user._id;
+
+    // Step 1: Find all jobs posted by this employer
+    const jobs = await Job.find({ postedBy: employerId });
+    const jobIds = jobs.map((job) => job._id);
+
+    // Step 2: Find applications for these jobs
+    const applications = await JobApplication.find({ jobId: { $in: jobIds } })
+      .populate("jobId", "title")
+      .sort({ appliedAt: -1 });
+
+    res.json(applications);
+  } catch (err) {
+    console.error("Error fetching employer applications:", err);
+    res.status(500).json({ message: "Error fetching employer applications", error: err.message });
+  }
+});
+
 
 module.exports = router;
 
