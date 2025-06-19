@@ -8,9 +8,14 @@ const authMiddleware = require("../middleware/authMiddleware");
 const router = express.Router();
 
 // Multer config for resume uploads
+// In your jobApplicationRoutes.js
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, "uploads/"),
-  filename: (req, file, cb) => cb(null, Date.now() + path.extname(file.originalname)),
+  destination: (req, file, cb) => {
+    cb(null, path.join(__dirname, '../uploads'));
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname));
+  }
 });
 const upload = multer({ storage });
 
