@@ -46,8 +46,10 @@ const candidateRoutes = require("./routes/candidateRoutes");
 // Use Routes
 app.use("/api/jobs", jobRoutes);
 app.use("/api/auth", authRoutes);
-app.use("/api/jobs", jobApplicationRoutes);
+app.use("/api/job-applications", jobApplicationRoutes);
 app.use("/api/candidate", candidateRoutes);
+// Serve uploaded files statically
+app.use('/upload', express.static(path.join(__dirname, 'uploads')));
 
 // File Upload Route (for resume uploads or other files)
 app.post("/upload", upload.single("resume"), (req, res) => {
