@@ -48,6 +48,35 @@ router.post("/add", authMiddleware, async (req, res) => {
     res.status(500).json({ message: "Error posting job" });
   }
 });
+// Update job by ID
+router.put('/:id', authMiddleware, async (req, res) => {
+  try {
+    const { id } = req.params;
+    
+    // Validate the ID
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ message: "Invalid job ID" });
+    }
+
+    const updatedJob = await Job.findByIdAndUpdate(
+      id,
+      req.body,
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedJob) {
+      return res.status(404).json({ message: "Job not found" });
+    }
+
+    res.json(updatedJob);
+  } catch (err) {
+    console.error("Error updating job:", err);
+    res.status(500).json({ 
+      message: "Error updating job",
+      error: err.message 
+    });
+  }
+});
 
 module.exports = router;
 
