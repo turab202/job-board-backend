@@ -6,6 +6,7 @@ const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
 
+
 const app = express();
 
 // Enhanced CORS configuration
@@ -56,8 +57,6 @@ const upload = multer({
 
 // MongoDB Connection with enhanced options
 mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
   serverSelectionTimeoutMS: 5000,
   socketTimeoutMS: 45000
 })
@@ -72,12 +71,17 @@ const jobRoutes = require("./routes/jobRoutes");
 const authRoutes = require("./routes/authRoutes");
 const jobApplicationRoutes = require("./routes/jobApplicationRoutes");
 const candidateRoutes = require("./routes/candidateRoutes");
+const dashboardRoutes = require("./routes/dashboardRoutes");
+// ... other imports
+
+
 
 // Use Routes
 app.use("/api/jobs", jobRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/job-applications", jobApplicationRoutes);
 app.use("/api/candidate", candidateRoutes);
+app.use("/api/dashboard", dashboardRoutes);
 
 // Enhanced static file serving with security headers
 app.use('/uploads', express.static(uploadDir, {
