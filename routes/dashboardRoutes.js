@@ -9,10 +9,9 @@ router.get("/stats", authMiddleware, async (req, res) => {
   try {
     const userId = req.user._id;
     
-    // Get active jobs count (jobs posted by the user)
+    // Get all jobs posted by the user (assuming all are active if no status field)
     const activeJobs = await Job.countDocuments({ 
-      postedBy: userId,
-      status: "active" // Assuming you have a status field
+      postedBy: userId
     });
     
     // Get applications count for jobs posted by the user
